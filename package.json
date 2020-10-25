@@ -1,0 +1,23 @@
+{
+  "name": "Codwar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha \"test/**/*.test.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangj56/Codwar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yangj56/Codwar/issues"
+  },
+  "homepage": "https://github.com/yangj56/Codwar#readme",
+  "dependencies": {
+    "mocha": "^8.1.3"
+  }
+}
