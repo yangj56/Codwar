@@ -1,0 +1,41 @@
+import { ValidateIf, ValidationOptions, IsString, IsOptional, validate, registerDecorator, ValidationArguments, IsNotEmpty } from "class-validator";
+import { plainToClass } from "class-transformer";
+export async function isOptionalProp() {
+	return ValidateIf((obj, val) => obj.hasOwnProperty("property"));
+}
+export function IsOptionalProp(propertyName): PropertyDecorator {
+	return ValidateIf((obj, val): boolean => obj.hasOwnProperty(propertyName));
+}
+export function MyCustomValidator(property: string, validationOptions?: ValidationOptions) {
+	return function (object: Object, propertyName: string) {
+		registerDecorator({
+			name: 'MyCustomValidator',
+			target: object.constructor,
+			propertyName: propertyName,
+			constraints: [property],
+			options: validationOptions,
+			validator: {
+				validate(value: any, args: ValidationArguments) {
+					console.log(object, propertyName)
+					return object.hasOwnProperty(propertyName);
+				},
+				defaultMessage() {
+					return "should be an optional property";
+				},
+			},
+		});
+	};
+}
+class MyDomain {
+	// @IsOptionalProp("optional")
+	@IsString()
+	@IsNotEmpty()
+	// @ts-ignore
+	public optional?: any;
+}
+const dto = { optional: "Test" };
+const domain = plainToClass(MyDomain, dto);
+(async function () {
+	const validationErrors = await validate(domain);
+	console.log(validationErrors);
+})();
